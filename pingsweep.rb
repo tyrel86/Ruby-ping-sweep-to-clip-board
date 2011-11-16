@@ -2,6 +2,7 @@
 # ping.rb is included in file so script can run on more machines less work for implementation
 require 'timeout'
 require "socket"
+require "clipboard.rb"
 
 module Ping
 
@@ -68,8 +69,18 @@ end_ip = gets.strip
 
 i = IP.new(start_ip)
 
-puts i.to_s + ", " if Ping::pingecho i.to_s
+ip_string = ""
+print "Working"
+ip_string = i.to_s + ", " if Ping::pingecho i.to_s
 begin 
 i.succ!
-puts i.to_s + ", " if Ping::pingecho i.to_s
+ip_string = ip_string + i.to_s + ", " if Ping::pingecho i.to_s
+print "." 
 end until i == end_ip
+
+puts ip_string.class
+Clipboard.copy ip_string
+
+puts "Finished found hosts at: #{ip_string}"
+puts "Host are copied to clipboard ready for nessus"
+puts "Have a nice day"
